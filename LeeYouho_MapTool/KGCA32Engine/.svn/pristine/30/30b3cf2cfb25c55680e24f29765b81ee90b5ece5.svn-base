@@ -1,0 +1,58 @@
+#pragma once
+
+
+
+// KTextureControlForm 폼 뷰입니다.
+#include "KTextureFinder.h"
+#include "afxwin.h"
+class KTextureControlForm : public CFormView
+{
+	DECLARE_DYNCREATE(KTextureControlForm)
+
+protected:
+	KTextureControlForm();           // 동적 만들기에 사용되는 protected 생성자입니다.
+	virtual ~KTextureControlForm();
+
+public:
+	KTextureFinder m_TexFinder;
+	CString m_RedString;
+	CString m_GreenString;
+	CString m_BlueString;
+	CString m_AlphaString;
+	TCHAR* SplattingTexture[4];
+
+	static KTextureControlForm* CreateOne(CWnd* pParent);
+#ifdef AFX_DESIGN_TIME
+	enum { IDD = IDD_KTEXTURECONTROLFORM };
+#endif
+#ifdef _DEBUG
+	virtual void AssertValid() const;
+#ifndef _WIN32_WCE
+	virtual void Dump(CDumpContext& dc) const;
+#endif
+#endif
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
+
+	DECLARE_MESSAGE_MAP()
+public:
+	float m_fSpreatRadius;
+	afx_msg void OnBnClickedSpreatmodeon();
+	afx_msg void OnBnClickedSpreatmodeoff();
+	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedRadio1();
+	afx_msg void OnBnClickedRadio2();
+	afx_msg void OnBnClickedRadio3();
+	afx_msg void OnBnClickedRadio4();
+	afx_msg void OnBnClickedButton2();
+	CListBox m_SplattingRed;
+	CListBox m_SplattingGreen;
+	CListBox m_SplattingBlue;
+	CListBox m_SplattingAlpha;
+	afx_msg void OnBnClickedGreenSearch();
+	afx_msg void OnBnClickedBlue();
+	afx_msg void OnBnClickedAlpha();
+};
+
+

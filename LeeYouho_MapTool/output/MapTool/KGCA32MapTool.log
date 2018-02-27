@@ -1,0 +1,57 @@
+﻿  Sample.cpp
+  e:\leeyouho_maptool_1116\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+e:\leeyouho_maptool_1116\include\bmaplod.h(54): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(57): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(62): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(64): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(87): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(91): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(108): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(245): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(265): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(288): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(329): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(410): warning C4244: '인수': 'float'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(433): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(435): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(455): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(470): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(501): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(545): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(593): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(606): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(639): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(686): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(687): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(690): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(691): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(740): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(742): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(762): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(778): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(888): warning C4244: '인수': 'float'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(896): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(915): warning C4244: '인수': 'float'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(923): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(937): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(939): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(959): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(975): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1009): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1039): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1041): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1042): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1110): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1112): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1140): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1185): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1187): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1207): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1223): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1248): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1250): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1270): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1286): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\kgca32maptool\sample.cpp(1320): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  KGCA32MapTool.vcxproj -> E:\LeeYouho_MapTool_1116\KGCA32Engine\KGCA32MapTool\../../output/KGCA32MapTool.exe
+  KGCA32MapTool.vcxproj -> ../../output/KGCA32MapTool.pdb (Partial PDB)

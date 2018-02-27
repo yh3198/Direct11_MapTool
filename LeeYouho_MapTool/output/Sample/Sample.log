@@ -1,0 +1,164 @@
+﻿  Sample.cpp
+  e:\leeyouho_maptool_1116\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+e:\leeyouho_maptool_1116\include\bmaplod.h(28): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\sample.cpp(26): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\sample.cpp(130): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\sample.cpp(145): error C2660: 'BWaterMap::Update': 함수는 2개의 매개 변수를 사용하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\sample.cpp(146): warning C4244: '인수': 'float'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\sample.cpp(157): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\sample.cpp(207): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\sample.cpp(240): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\sample.cpp(268): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\sample.cpp(284): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  BWaterMap.cpp
+  e:\leeyouho_maptool_1116\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+e:\leeyouho_maptool_1116\include\bmaplod.h(28): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bdxrt.h(5): error C2011: 'BDxRT': 'class' 형식 재정의
+  e:\leeyouho_maptool_1116\include\bdxrt.h(5): note: 'BDxRT' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bdxrtheight.h(5): error C2011: 'BDxRTHeight': 'class' 형식 재정의
+  e:\leeyouho_maptool_1116\include\bdxrtheight.h(6): note: 'BDxRTHeight' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\brenderplane.h(8): error C2011: 'BRenderPlane': 'class' 형식 재정의
+  e:\leeyouho_maptool_1116\include\brenderplane.h(8): note: 'BRenderPlane' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\brenderplaneheight.h(4): error C2011: 'BRenderPlaneHeight': 'class' 형식 재정의
+  e:\leeyouho_maptool_1116\include\brenderplaneheight.h(4): note: 'BRenderPlaneHeight' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.h(11): error C2011: 'cbFog': 'struct' 형식 재정의
+  e:\leeyouho_maptool_1116\include\bwatermap.h(11): note: 'cbFog' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.h(23): error C2011: 'cbTanLight': 'struct' 형식 재정의
+  e:\leeyouho_maptool_1116\include\bwatermap.h(23): note: 'cbTanLight' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.h(31): error C2011: 'cbLightDefault': 'struct' 형식 재정의
+  e:\leeyouho_maptool_1116\include\bwatermap.h(31): note: 'cbLightDefault' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.h(37): error C2011: 'BWaterMap': 'class' 형식 재정의
+  e:\leeyouho_maptool_1116\include\bwatermap.h(37): note: 'BWaterMap' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(10): error C2027: 정의되지 않은 형식 'BWaterMap'을(를) 사용했습니다.
+  e:\leeyouho_maptool_1116\include\bwatermap.h(37): note: 'BWaterMap' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(15): error C3861: 'SetWaterTexture': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(19): error C3861: 'SetWaterNormalTexture': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(23): error C3861: 'SetHeightTexture': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(29): error C2027: 정의되지 않은 형식 'BWaterMap'을(를) 사용했습니다.
+  e:\leeyouho_maptool_1116\include\bwatermap.h(37): note: 'BWaterMap' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(32): error C2065: 'm_WaterSRV': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(35): error C2027: 정의되지 않은 형식 'BWaterMap'을(를) 사용했습니다.
+  e:\leeyouho_maptool_1116\include\bwatermap.h(37): note: 'BWaterMap' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(38): error C2065: 'm_WaterNormalSRV': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(41): error C2027: 정의되지 않은 형식 'BWaterMap'을(를) 사용했습니다.
+  e:\leeyouho_maptool_1116\include\bwatermap.h(37): note: 'BWaterMap' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(44): error C2065: 'm_WaterHeightSRV': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(49): error C2027: 정의되지 않은 형식 'BWaterMap'을(를) 사용했습니다.
+  e:\leeyouho_maptool_1116\include\bwatermap.h(37): note: 'BWaterMap' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(51): error C2065: 'm_dwWidth': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(52): error C2065: 'm_dwHeight': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(53): error C2065: 'm_pImmediateContext': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(56): error C2065: 'm_pMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(57): error C2065: 'm_pMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(57): error C2227: '->SetMapDesc' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(57): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(58): error C2065: 'm_pMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(58): error C2227: '->Create' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(58): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(58): error C2065: 'm_pd3dDevice': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(58): error C2065: 'm_pImmediateContext': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(59): error C2065: 'm_pMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(59): error C2227: '->UpdateNormal' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(59): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(60): error C3861: 'CreateWaterMapInputLayout': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(61): error C2065: 'm_pWaterTexMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(64): error C2065: 'm_HeightMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(64): error C2228: '.Create' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(64): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(64): error C2065: 'm_pd3dDevice': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(65): error C2065: 'm_HeightMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(65): error C2228: '.Set' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(65): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(65): error C2065: 'm_pd3dDevice': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(65): error C2065: 'm_pMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(65): error C2227: '->m_iNumRows' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(65): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(66): error C2065: 'm_HeightMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(66): error C2228: '.m_pMiniMapRT' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(66): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(66): error C2227: '->DrawHeightTex' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(67): error C2065: 'm_WaterHeightSRV': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(67): error C2065: 'm_HeightMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(67): error C2228: '.m_pMiniMapRT' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(67): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(67): error C2227: '->m_pSRV' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(70): error C2065: 'm_pd3dDevice': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(73): error C3861: 'CreateWaterConstantBuffer': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(75): error C2065: 'm_iNumFace': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(76): error C2065: 'm_bUsedIndexList': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(77): error C2065: 'm_pImmediateContext': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(79): error C2065: 'm_pRootNode': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(79): error C3861: 'CreateNode': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(81): error C2065: 'm_pRootNode': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(81): error C2065: 'm_iMaxDepthLimit': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(81): error C3861: 'InitLevelOrder': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(82): error C2065: 'm_pIndexBuffer': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(82): error C2228: '.Attach' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(82): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(82): error C2065: 'm_pd3dDevice': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(82): error C2065: 'm_iNumFace': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(82): error C3861: 'CreateIndexBuffer': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(84): error C2065: 'm_pRootNode': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(84): error C3861: 'BuildTree': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(88): error C2065: 'm_pRootNode': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(88): error C2227: '->m_pChild' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(88): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(88): error C3861: 'SetNeighborNode': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(90): error C2065: 'm_dwWidth': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(90): error C2065: 'm_iMaxDepth': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(90): error C3861: 'SetLOD': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(93): error C2065: 'm_iNumCell': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(93): error C3861: 'ComputeStaticLodIndex': 식별자를 찾을 수 없습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(101): error C2027: 정의되지 않은 형식 'BWaterMap'을(를) 사용했습니다.
+  e:\leeyouho_maptool_1116\include\bwatermap.h(37): note: 'BWaterMap' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(103): error C2065: 'm_fWaterHeight': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(104): error C2065: 'm_pMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(104): error C2227: '->m_matWorld' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(104): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(104): error C2228: '._42' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(104): error C2065: 'm_fWaterHeight': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(108): error C2027: 정의되지 않은 형식 'BWaterMap'을(를) 사용했습니다.
+  e:\leeyouho_maptool_1116\include\bwatermap.h(37): note: 'BWaterMap' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(110): error C2065: 'm_pMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(110): error C2227: '->m_matWorld' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(110): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(110): error C2228: '._42' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(110): error C2065: 'm_fWaterHeight': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(114): error C2027: 정의되지 않은 형식 'BWaterMap'을(를) 사용했습니다.
+  e:\leeyouho_maptool_1116\include\bwatermap.h(37): note: 'BWaterMap' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(147): error C2065: 'm_pd3dDevice': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(147): error C2227: '->CreateVertexShader' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(147): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(147): error C2065: 'm_pWaterVS': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(151): error C2065: 'm_pd3dDevice': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(151): error C2227: '->CreatePixelShader' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(151): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(151): error C2065: 'm_pWaterPS': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(164): error C2065: 'm_pd3dDevice': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(164): error C2227: '->CreateInputLayout' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(164): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(164): error C2065: 'm_pMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(164): error C2227: '->m_pVertexLayout' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(164): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(172): error C2027: 정의되지 않은 형식 'BWaterMap'을(를) 사용했습니다.
+  e:\leeyouho_maptool_1116\include\bwatermap.h(37): note: 'BWaterMap' 선언을 참조하십시오.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(176): error C2065: 'm_pMap': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(176): error C2227: '->m_matWorld' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(176): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(177): error C2065: 'm_pRootNode': 선언되지 않은 식별자입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(177): error C2227: '->m_tBox' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(177): note: 'unknown-type' 형식입니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(177): error C2228: '.vCenter' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bwatermap.cpp(177): fatal error C1003: 오류 수가 100개를 초과했습니다. 컴파일을 중지합니다.
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  BDxRTHeight.cpp
+  e:\leeyouho_maptool_1116\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+e:\leeyouho_maptool_1116\kgca32engine\sample\bdxrtheight.cpp(64): warning C4244: '=': 'float'에서 'BYTE'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bdxrtheight.cpp(65): warning C4244: '=': 'float'에서 'BYTE'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bdxrtheight.cpp(66): warning C4244: '=': 'float'에서 'BYTE'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\leeyouho_maptool_1116\kgca32engine\sample\bdxrtheight.cpp(67): warning C4244: '=': 'float'에서 'BYTE'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+  건너뛰고 있습니다... (관련된 변경 내용 없음)
+  BRenderPlaneHeight.cpp
+  BRenderPlane.cpp

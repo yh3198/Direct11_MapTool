@@ -1,0 +1,65 @@
+// VS
+struct VS_INPUT
+{
+	float3 Position : POSITION;
+	float3 Normal : NORMAL;
+	float4 Color : COLOR;
+	float3 Texture : TEXTURE;
+};
+struct VS_OUTPUT
+{
+	float4 Position : SV_POSITION;
+	float3 Normal : NORMAL;
+	float4 Color : COLOR0;
+	float3 Texture : TEXTURE;
+};
+
+// GS
+struct GS_INPUT
+{
+	float4 Position : SV_POSITION;
+	float3 Texture : TEXTURE;
+};
+struct GS_OUTPUT
+{
+	float4 Position : SV_POSITION;
+	float3 Texture : TEXTURE;
+	uint index : SV_RenderTargetArrayIndex;
+};
+
+// PS
+struct PS_INPUT
+{
+	float4 Position : SV_POSITION;
+	float3 Texture : TEXTURE;
+	uint Index : SV_RenderTargetArrayIndex;
+};
+
+// CB
+cbuffer cb0 : register(b0)
+{
+	matrix	g_matWorld		: packoffset(c0);
+	matrix	g_matView		: packoffset(c4);
+	matrix	g_matProj		: packoffset(c8);
+	float4  g_MeshColor     : packoffset(c12);
+};
+cbuffer cb1 : register(b1)
+{
+	matrix	g_matViewCube[6] : packoffset(c0);
+}
+
+
+VS_OUTPUT Water_VS(VS_INPUT vIn)
+{
+	GS_INPUT output = (GS_INPUT)0; // √ ±‚»≠
+	float4 vWorldPos = mul(vIn.Position, g_matWorld);
+	output.Position = vWorldPos;
+	output.Texture = normalize(vIn.Position.xyz);
+	return output;
+}
+
+[maxvertexcount(18)]
+void Cube_GS(triangle GS_INPUT input[3], inout TriangleStream<INPUT_PS> cubeMapStream)
+{
+
+}

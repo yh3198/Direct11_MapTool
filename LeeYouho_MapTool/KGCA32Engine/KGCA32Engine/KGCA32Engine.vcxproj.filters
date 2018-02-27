@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{407943b5-df18-4b19-a631-c038d09ba3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{243395d9-71a3-41bd-98a3-3464c3bd5f66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{fe21a04d-9e28-4b51-b7db-7de7d6aeeff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Std">
+      <UniqueIdentifier>{f8f7e2b4-61aa-4f0d-ae17-bdaedf059e28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{2b801153-021e-4576-9a1c-1833e5ac2158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BCore.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BDevice.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BInput.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BTimer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BWindowLib.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BWrite.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BSound.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BBackViewCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="BCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="BFrustum.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="BDirectionLine.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BSkyObj.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BSphere.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BBox.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BLine.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BDxState.cpp">
+      <Filter>Std</Filter>
+    </ClCompile>
+    <ClCompile Include="BPlane.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BMapLOD.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BMapTileRender.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BNode.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BQuadTree.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BSelect.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BNMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BDxRT.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BDxRTHeight.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BRenderPlane.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BRenderPlaneHeight.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BWaterMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BMapSetting.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BNPlane.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BAseObj.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BParser.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BShadow.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BCore.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BDevice.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BInput.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BTimer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BWindowLib.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BWrite.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BSound.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BBackViewCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="BCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="BFrustum.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="BObjStd.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BSkyObj.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BPlane.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BLine.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BDirectionLine.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BBox.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BStd.h">
+      <Filter>Std</Filter>
+    </ClInclude>
+    <ClInclude Include="BDxState.h">
+      <Filter>Std</Filter>
+    </ClInclude>
+    <ClInclude Include="BSphere.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BMapLOD.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BMapTileRender.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BNode.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BQuadTree.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BSelect.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BNMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BDxRT.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BDxRTHeight.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BRenderPlane.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BRenderPlaneHeight.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BWaterMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BMapSetting.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BNPlane.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BAseObj.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BParser.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BShadow.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BWindowLib.aps" />
+    <None Include="BWindowLib.vcxproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BWindowLib.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="NormalShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="LineShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="SkyShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="WaterMapShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="TestShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="MapShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="AseShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ShadowShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

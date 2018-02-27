@@ -1,0 +1,49 @@
+﻿  KGCA32Engine.vcxproj -> E:\LeeYouho_MapTool_1116\KGCA32Engine\KGCA32Engine\../../output/KGCA32Engine.lib
+  .\\BAseObj.h
+  .\\BBackViewCamera.h
+  .\\BBox.h
+  .\\BCamera.h
+  .\\BCore.h
+  .\\BDevice.h
+  .\\BDirectionLine.h
+  .\\BDxRT.h
+  .\\BDxRTHeight.h
+  .\\BDxState.h
+  .\\BFrustum.h
+  .\\BInput.h
+  .\\BLine.h
+  .\\BMap.h
+  .\\BMapLOD.h
+  .\\BMapSetting.h
+  .\\BMapTileRender.h
+  .\\BNMap.h
+  .\\BNode.h
+  .\\BNPlane.h
+  .\\BObject.h
+  .\\BObjStd.h
+  .\\BParser.h
+  .\\BPlane.h
+  .\\BQuadTree.h
+  .\\BRenderPlane.h
+  .\\BRenderPlaneHeight.h
+  .\\BSelect.h
+  .\\BShadow.h
+  .\\BSkyObj.h
+  .\\BSound.h
+  .\\BSphere.h
+  .\\BStd.h
+  .\\BTimer.h
+  .\\BWaterMap.h
+  .\\BWindowLib.h
+  .\\BWrite.h
+         37개 파일이 복사되었습니다.
+          1개 파일이 복사되었습니다.
+  .\\AseShader.hlsl
+  .\\LineShader.hlsl
+  .\\MapShader.hlsl
+  .\\NormalShader.hlsl
+  .\\ShadowShader.hlsl
+  .\\SkyShader.hlsl
+  .\\TestShader.hlsl
+  .\\WaterMapShader.hlsl
+          8개 파일이 복사되었습니다.

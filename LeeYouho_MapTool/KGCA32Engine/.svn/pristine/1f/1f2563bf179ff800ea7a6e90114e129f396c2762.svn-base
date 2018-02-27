@@ -1,0 +1,34 @@
+#pragma once
+#include "BCore.h"
+
+struct cbFog
+{
+	D3DXVECTOR4 g_ClipPlane;
+	D3DXVECTOR4 g_vCameraPos;
+	D3DXVECTOR4 g_FogColor;
+	D3DXVECTOR4 g_FogInfo;
+};
+
+class BWaterMap : public BMapTileRender
+{
+public:
+	BMap* m_pWaterTexMap;
+	float m_fWaterHeight;
+
+	ComPtr<ID3D11ShaderResourceView> m_WaterMapUpsideSRV;
+	ComPtr<ID3D11ShaderResourceView> m_WaterBottomSRV;
+	ComPtr<ID3D11ShaderResourceView> m_WaterHeightSRV;
+	ComPtr<ID3D11ShaderResourceView> m_WaterNormalSRV;
+
+public:
+	HRESULT TextureLoad(ID3D11Device* pDevice, const TCHAR* strNormalTex = NULL, const TCHAR* strHeightTex = NULL);
+	HRESULT SetWaterNormalTexture(ID3D11Device* pDevice, const TCHAR* strFilePath);
+	HRESULT SetHeightTexture(ID3D11Device* pDevice, const TCHAR* strFilePath);
+	bool Render(ID3D11DeviceContext* pContext);
+	bool Build(BMap* pMap, DWORD dwWidth, DWORD dwHeight, ID3D11DeviceContext* pImmediateContext, const TCHAR* strNormalTex = NULL, const TCHAR* strHeightTex = NULL);
+	bool SetMapHeight(float Height);
+public:
+	BWaterMap();
+	~BWaterMap();
+};
+

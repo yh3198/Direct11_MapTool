@@ -1,0 +1,282 @@
+// KTextureControlForm.cpp : 구현 파일입니다.
+//
+
+#include "stdafx.h"
+#include "KGCA32MapTool.h"
+#include "KTextureControlForm.h"
+#include "KGlobalDlg.h"
+
+KTextureControlForm* g_MapTexContral;
+
+// KTextureControlForm
+
+IMPLEMENT_DYNCREATE(KTextureControlForm, CFormView)
+
+KTextureControlForm::KTextureControlForm()
+	: CFormView(IDD_KTEXTURECONTROLFORM)
+	, m_fSpreatRadius(0)
+{
+	g_MapTexContral = this;
+}
+
+KTextureControlForm::~KTextureControlForm()
+{
+}
+
+KTextureControlForm* KTextureControlForm::CreateOne(CWnd* pParent)
+{
+	KTextureControlForm* pForm = new KTextureControlForm;
+	if (!pForm->Create(NULL, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 500, 500), pParent, 0, NULL))
+	{
+		return NULL;
+	}
+	return pForm;
+}
+
+
+void KTextureControlForm::DoDataExchange(CDataExchange* pDX)
+{
+	CFormView::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_SpreatRadius, m_fSpreatRadius);
+	DDX_Control(pDX, IDC_LIST1, m_SplattingRed);
+	DDX_Control(pDX, IDC_LIST3, m_SplattingGreen);
+	DDX_Control(pDX, IDC_LIST4, m_SplattingBlue);
+	DDX_Control(pDX, IDC_LIST5, m_SplattingAlpha);
+}
+
+BEGIN_MESSAGE_MAP(KTextureControlForm, CFormView)
+	ON_BN_CLICKED(IDC_SpreatModeOn, &KTextureControlForm::OnBnClickedSpreatmodeon)
+	ON_BN_CLICKED(IDC_SpreatModeOff, &KTextureControlForm::OnBnClickedSpreatmodeoff)
+	ON_BN_CLICKED(IDC_BUTTON1, &KTextureControlForm::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_RADIO1, &KTextureControlForm::OnBnClickedRadio1)
+	ON_BN_CLICKED(IDC_RADIO2, &KTextureControlForm::OnBnClickedRadio2)
+	ON_BN_CLICKED(IDC_RADIO3, &KTextureControlForm::OnBnClickedRadio3)
+	ON_BN_CLICKED(IDC_RADIO4, &KTextureControlForm::OnBnClickedRadio4)
+	ON_BN_CLICKED(IDC_BUTTON2, &KTextureControlForm::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON3, &KTextureControlForm::OnBnClickedGreenSearch)
+	ON_BN_CLICKED(IDC_BUTTON4, &KTextureControlForm::OnBnClickedBlue)
+	ON_BN_CLICKED(IDC_BUTTON5, &KTextureControlForm::OnBnClickedAlpha)
+END_MESSAGE_MAP()
+
+
+// KTextureControlForm 진단입니다.
+
+#ifdef _DEBUG
+void KTextureControlForm::AssertValid() const
+{
+	CFormView::AssertValid();
+}
+
+#ifndef _WIN32_WCE
+void KTextureControlForm::Dump(CDumpContext& dc) const
+{
+	CFormView::Dump(dc);
+}
+#endif
+#endif //_DEBUG
+
+
+// KTextureControlForm 메시지 처리기입니다.
+
+
+void KTextureControlForm::OnBnClickedSpreatmodeon()
+{
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.m_VCtrlState = vNone;
+	pApp->Sample.m_VSpreatState = vSpreatApply;
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void KTextureControlForm::OnBnClickedSpreatmodeoff()
+{
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.m_VSpreatState = vSpreatNone;
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void KTextureControlForm::OnBnClickedButton1()
+{
+	UpdateData(TRUE);
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.m_fSpreatingRadius = m_fSpreatRadius;
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void KTextureControlForm::OnBnClickedRadio1()
+{
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.m_iSpreatingColor = vRed;
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void KTextureControlForm::OnBnClickedRadio2()
+{
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.m_iSpreatingColor = vGreen;
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void KTextureControlForm::OnBnClickedRadio3()
+{
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.m_iSpreatingColor = vBlue;
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void KTextureControlForm::OnBnClickedRadio4()
+{
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.m_iSpreatingColor = vAlpha;
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+// Red Search Button Down
+void KTextureControlForm::OnBnClickedButton2()
+{
+	m_RedString.Empty();
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	if (m_TexFinder.GetSafeHwnd() == NULL)
+	{
+		/*m_TexFinder.Create(IDD_KTEXTUREFINDER);
+		m_TexFinder.ShowWindow(SW_SHOW);*/ // 상호참조로 모달리스를 해결하는 방법이 있으나 추후 연구
+		if (m_TexFinder.DoModal() == IDOK)
+		{
+			if (m_TexFinder.m_TexFileName.size())
+			{
+				m_RedString = m_TexFinder.m_TexFileName[0];
+			}
+			m_TexFinder.m_TexFileName.clear();
+			m_TexFinder.OnFinalRelease();
+		}
+		else
+		{
+			return;
+		}
+	}
+	// 지금은 0번만 사용하고 있어서 0번으로 했지만 여러개중 선택하게 되면 충돌체크를 해서 충돌한 쿼드트리를 찾아서 넣어줘야 한다.
+	m_SplattingRed.ResetContent();
+	m_SplattingRed.AddString(m_RedString);
+
+	CString DataPos = L"../../data/";// 데이터 위치를 한정시킨다.
+	DataPos += m_RedString;
+	m_RedString = DataPos;
+	SplattingTexture[0] = (TCHAR*)(LPCTSTR)m_RedString;
+	pApp->Sample.m_vMapQuadTree[0]->SplattingTextureLoad(pApp->Sample.m_pd3dDevice, SplattingTexture[0], 0);
+	pApp->Sample.m_mMapSplattingTexture[0] = SplattingTexture[0];
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+// Green Search Button Down
+void KTextureControlForm::OnBnClickedGreenSearch()
+{
+	m_GreenString.Empty();
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	if (m_TexFinder.GetSafeHwnd() == NULL)
+	{
+		/*m_TexFinder.Create(IDD_KTEXTUREFINDER);
+		m_TexFinder.ShowWindow(SW_SHOW);*/ // 상호참조로 모달리스를 해결하는 방법이 있으나 추후 연구
+		if (m_TexFinder.DoModal() == IDOK)
+		{
+			if (m_TexFinder.m_TexFileName.size())
+			{
+				m_GreenString = m_TexFinder.m_TexFileName[0];
+			}
+			m_TexFinder.m_TexFileName.clear();
+			m_TexFinder.OnFinalRelease();
+		}
+		else
+		{
+			return;
+		}
+	}
+	// 지금은 0번만 사용하고 있어서 0번으로 했지만 여러개중 선택하게 되면 충돌체크를 해서 충돌한 쿼드트리를 찾아서 넣어줘야 한다
+	m_SplattingGreen.ResetContent();
+	m_SplattingGreen.AddString(m_GreenString);
+
+	CString DataPos = L"../../data/";// 데이터 위치를 한정시킨다.
+	DataPos += m_GreenString;
+	m_GreenString = DataPos;
+	SplattingTexture[1] = (TCHAR*)(LPCTSTR)m_GreenString;
+	pApp->Sample.m_vMapQuadTree[0]->SplattingTextureLoad(pApp->Sample.m_pd3dDevice, SplattingTexture[1], 1);
+	pApp->Sample.m_mMapSplattingTexture[1] = SplattingTexture[1];
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void KTextureControlForm::OnBnClickedBlue()
+{
+	m_BlueString.Empty();
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	if (m_TexFinder.GetSafeHwnd() == NULL)
+	{
+		/*m_TexFinder.Create(IDD_KTEXTUREFINDER);
+		m_TexFinder.ShowWindow(SW_SHOW);*/ // 상호참조로 모달리스를 해결하는 방법이 있으나 추후 연구
+		if (m_TexFinder.DoModal() == IDOK)
+		{
+			if (m_TexFinder.m_TexFileName.size())
+			{
+				m_BlueString = m_TexFinder.m_TexFileName[0];
+			}
+			m_TexFinder.m_TexFileName.clear();
+			m_TexFinder.OnFinalRelease();
+		}
+		else
+		{
+			return;
+		}
+	}
+	// 지금은 0번만 사용하고 있어서 0번으로 했지만 여러개중 선택하게 되면 충돌체크를 해서 충돌한 쿼드트리를 찾아서 넣어줘야 한다.
+	m_SplattingBlue.ResetContent();
+	m_SplattingBlue.AddString(m_BlueString);
+
+	CString DataPos = L"../../data/";// 데이터 위치를 한정시킨다.
+	DataPos += m_BlueString;
+	m_BlueString = DataPos;
+	SplattingTexture[1] = (TCHAR*)(LPCTSTR)m_BlueString;
+	pApp->Sample.m_vMapQuadTree[0]->SplattingTextureLoad(pApp->Sample.m_pd3dDevice, SplattingTexture[2], 2);
+	pApp->Sample.m_mMapSplattingTexture[2] = SplattingTexture[2];
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void KTextureControlForm::OnBnClickedAlpha()
+{
+	m_AlphaString.Empty();
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	if (m_TexFinder.GetSafeHwnd() == NULL)
+	{
+		/*m_TexFinder.Create(IDD_KTEXTUREFINDER);
+		m_TexFinder.ShowWindow(SW_SHOW);*/ // 상호참조로 모달리스를 해결하는 방법이 있으나 추후 연구
+		if (m_TexFinder.DoModal() == IDOK)
+		{
+			if (m_TexFinder.m_TexFileName.size())
+			{
+				m_AlphaString = m_TexFinder.m_TexFileName[0];
+			}
+			m_TexFinder.m_TexFileName.clear();
+			m_TexFinder.OnFinalRelease();
+		}
+		else
+		{
+			return;
+		}
+	}
+	// 지금은 0번만 사용하고 있어서 0번으로 했지만 여러개중 선택하게 되면 충돌체크를 해서 충돌한 쿼드트리를 찾아서 넣어줘야 한다.
+	m_SplattingAlpha.ResetContent();
+	m_SplattingAlpha.AddString(m_AlphaString);
+
+	CString DataPos = L"../../data/";// 데이터 위치를 한정시킨다.
+	DataPos += m_AlphaString;
+	m_AlphaString = DataPos;
+	SplattingTexture[1] = (TCHAR*)(LPCTSTR)m_AlphaString;
+	pApp->Sample.m_vMapQuadTree[0]->SplattingTextureLoad(pApp->Sample.m_pd3dDevice, SplattingTexture[3], 3);
+	pApp->Sample.m_mMapSplattingTexture[3] = SplattingTexture[3];
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
