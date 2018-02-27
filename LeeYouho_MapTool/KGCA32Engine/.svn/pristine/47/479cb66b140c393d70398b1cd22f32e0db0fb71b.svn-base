@@ -1,0 +1,190 @@
+#include "Sample.h"
+
+
+B_BoxObject::B_BoxObject()
+{
+	m_tBox.vCenter = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_tBox.vMax = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_tBox.vMin = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
+
+	m_vPosition = D3DXVECTOR3(25 - rand() % 50, 0, 25 - rand() % 50);
+	m_vColor = D3DXVECTOR4((rand() % 256) / 255.0f, (rand() % 256) / 255.0f, (rand() % 256) / 255.0f, 1.0f);
+
+	// g_matWorld Matrix = S (로테이션 제외)
+	D3DXMATRIX matWorld;
+	D3DXMatrixScaling(&matWorld, (rand() % 256) / 255.0f * 2.0f, (rand() % 256) / 255.0f * 2.0f, (rand() % 256) / 255.0f * 2.0f);
+
+	m_tBox.vCenter = m_vPosition;
+	D3DXVECTOR3 vMax, vMin, vHalf;
+	D3DXVec3TransformCoord(&m_tBox.vAxis[0], &D3DXVECTOR3(1.0f, 0.0f, 0.0f), &matWorld);
+	D3DXVec3TransformCoord(&m_tBox.vAxis[1], &D3DXVECTOR3(0.0f, 1.0f, 0.0f), &matWorld);
+	D3DXVec3TransformCoord(&m_tBox.vAxis[2], &D3DXVECTOR3(0.0f, 0.0f, 1.0f), &matWorld);
+	D3DXVec3Normalize(&m_tBox.vAxis[0], &m_tBox.vAxis[0]);
+	D3DXVec3Normalize(&m_tBox.vAxis[1], &m_tBox.vAxis[1]);
+	D3DXVec3Normalize(&m_tBox.vAxis[2], &m_tBox.vAxis[2]);
+
+	matWorld._41 = m_vPosition.x;
+	matWorld._42 = m_vPosition.y;
+	matWorld._43 = m_vPosition.z;
+
+	D3DXVec3TransformCoord(&vMax, &m_tBox.vMax, &matWorld);
+	D3DXVec3TransformCoord(&vMin, &m_tBox.vMin, &matWorld);
+	vHalf = vMax - m_tBox.vCenter;
+
+	m_tBox.fExtent[0] = D3DXVec3Dot(&m_tBox.vAxis[0], &vHalf);
+	m_tBox.fExtent[1] = D3DXVec3Dot(&m_tBox.vAxis[1], &vHalf);
+	m_tBox.fExtent[2] = D3DXVec3Dot(&m_tBox.vAxis[2], &vHalf);
+	//    4    5
+	// 0    1
+	//    7    6 
+	// 3    2
+	D3DXVECTOR3 vVertex[8];
+	vVertex[0] = D3DXVECTOR3(m_tBox.vMin.x, m_tBox.vMax.y, m_tBox.vMin.z);
+	vVertex[1] = D3DXVECTOR3(m_tBox.vMax.x, m_tBox.vMax.y, m_tBox.vMin.z);
+	vVertex[2] = D3DXVECTOR3(m_tBox.vMax.x, m_tBox.vMin.y, m_tBox.vMin.z);
+	vVertex[3] = D3DXVECTOR3(m_tBox.vMin.x, m_tBox.vMin.y, m_tBox.vMin.z);
+
+	vVertex[4] = D3DXVECTOR3(m_tBox.vMin.x, m_tBox.vMax.y, m_tBox.vMax.z);
+	vVertex[5] = D3DXVECTOR3(m_tBox.vMax.x, m_tBox.vMax.y, m_tBox.vMax.z);
+	vVertex[6] = D3DXVECTOR3(m_tBox.vMax.x, m_tBox.vMin.y, m_tBox.vMax.z);
+	vVertex[7] = D3DXVECTOR3(m_tBox.vMin.x, m_tBox.vMin.y, m_tBox.vMax.z);
+
+	vMin = D3DXVECTOR3(100000.0f, 100000.0f, 100000.0f);
+	vMax = D3DXVECTOR3(-100000.0f, -100000.0f, -100000.0f);
+
+	for (int iVer = 0; iVer < 8; iVer++)
+	{
+		D3DXVec3TransformCoord(&vVertex[iVer], &vVertex[iVer], &matWorld);
+		if (vVertex[iVer].x > vMax.x) vMax.x = vVertex[iVer].x;
+		if (vVertex[iVer].y > vMax.y) vMax.y = vVertex[iVer].y;
+		if (vVertex[iVer].z > vMax.z) vMax.z = vVertex[iVer].z;
+
+		if (vVertex[iVer].x < vMin.x) vMin.x = vVertex[iVer].x;
+		if (vVertex[iVer].y < vMin.y) vMin.y = vVertex[iVer].y;
+		if (vVertex[iVer].z < vMin.z) vMin.z = vVertex[iVer].z;
+	}
+
+	m_tBox.vMin = vMin;
+	m_tBox.vMax = vMax;
+	m_matWorld = matWorld;
+}
+B_BoxObject::~B_BoxObject()
+{
+}
+
+
+bool Sample::Init()
+{
+	/*맵 생성용*/
+	BMapDesc MapInfo;
+	MapInfo.iCellCount = 3;
+	MapInfo.iPatchCount = 3;
+	MapInfo.fCellDistance = 3.0f;
+	SampleMap.SetMapDesc(MapInfo);
+
+	TCHAR* MapTextture[]
+	{
+		L"../../data/DetailMap_Blue.dds",
+	};
+	SampleMap.Create(m_pd3dDevice, m_pImmediateContext, MapTextture, ARRAYSIZE(MapTextture), NULL , L"../../data/shader/NormalShader.hlsl");//L"../../data/heightMap513.bmp"
+	SampleMap.UpdateNormal();
+
+	/*박스 충돌처리용*/
+	SampleObjQuad.Build(100.0f, 100.0f);
+	S_NEW(m_pBoxShape, BBox);
+	if (FAILED(m_pBoxShape->Create(m_pd3dDevice, L"../../data/shader/NormalShader.hlsl", L"../../data/Hero.jpg")))
+	{
+		MessageBox(0, _T("m_pBoxShape실패"), _T("Fatal Error"), MB_OK);
+		return false;
+	}
+	S_NEW_ARRAY(m_pObject, B_BoxObject, 100);
+
+	for (int iBox = 0; iBox < 100; iBox++)
+	{
+		SampleObjQuad.AddObject(&m_pObject[iBox]);
+	}
+	return true;
+}
+
+bool Sample::Frame()
+{
+	/*선택한 상자 삭제하기*/
+	if (I_Input.m_MouseState[0])
+	{
+		FindBoxAndDelete();
+	}
+	SampleObjQuad.Frame(m_pMainCamera);
+	return true;
+}
+
+bool Sample::Render()
+{
+	/*맵 띄우기*/
+	SampleMap.ReLoadVBuffer();
+	SampleMap.SetMatrix(SampleMap.m_matWorld, m_pMainCamera->m_matView, m_pMainCamera->m_matProj);
+	SampleMap.Render(m_pImmediateContext);
+
+	/*선택한 상자 삭제하기*/
+	DrawObject(m_pMainCamera);
+	return true;
+}
+
+bool Sample::Release()
+{
+	return true;
+}
+
+void Sample::DrawObject(BCamera* Camera)
+{
+	for (int iBox = 0; iBox < SampleObjQuad.m_DrawObjList.size(); iBox++)
+	{
+		m_pBoxShape->SetMatrix(SampleObjQuad.m_DrawObjList[iBox]->m_matWorld, Camera->m_matView, Camera->m_matProj);
+		m_pBoxShape->Render(m_pImmediateContext);
+	}
+}
+
+bool Sample::FindBoxAndDelete()
+{
+	/*상자 찾아 삭제하기*/
+	SampleSelect.SetMatrix(NULL, &m_pMainCamera->m_matView, &m_pMainCamera->m_matProj); //좌표계 일치가 필요하다.
+	BNode* CheckedNode = SampleSelect.CheckRootNode(SampleObjQuad.m_pRootNode);
+	if (CheckedNode != NULL)
+	{
+		while(1)
+		{
+			for (int iBox = 0; iBox < CheckedNode->m_ObjectList.size(); iBox++)
+			{
+				SampleSelect.SetMatrix(NULL, &m_pMainCamera->m_matView, &m_pMainCamera->m_matProj);
+				if (SampleSelect.IntersectBox(&CheckedNode->m_ObjectList[iBox]->m_tBox))
+				{
+					vector<BObject*>::iterator itor = CheckedNode->m_ObjectList.begin();
+					itor += iBox;
+					CheckedNode->m_ObjectList.erase(itor);
+					return true;
+				}
+			}
+			if (CheckedNode->m_pParent != NULL)
+			{
+				CheckedNode = CheckedNode->m_pParent;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+	return false;
+}
+
+
+Sample::Sample()
+{
+}
+
+
+Sample::~Sample()
+{
+}
+
+BBASIS_START;
+BBASIS_WIN(L"CODEGAME");

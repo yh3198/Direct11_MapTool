@@ -1,0 +1,96 @@
+// KMapObjControlForm.cpp : 구현 파일입니다.
+//
+
+#include "stdafx.h"
+#include "KGCA32MapTool.h"
+#include "KMapObjControlForm.h"
+
+
+// KMapObjControlForm
+
+KMapObjControlForm* KMapObjControlForm::CreateOne(CWnd* pParent)
+{
+	KMapObjControlForm* pForm = new KMapObjControlForm;
+	if (!pForm->Create(NULL, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 500, 500), pParent, 0, NULL))
+	{
+		return NULL;
+	}
+	return pForm;
+}
+
+
+IMPLEMENT_DYNCREATE(KMapObjControlForm, CFormView)
+
+KMapObjControlForm::KMapObjControlForm()
+	: CFormView(IDD_KMAPOBJCONTROLFORM)
+{
+
+}
+
+KMapObjControlForm::~KMapObjControlForm()
+{
+}
+
+void KMapObjControlForm::DoDataExchange(CDataExchange* pDX)
+{
+	CFormView::DoDataExchange(pDX);
+}
+
+BEGIN_MESSAGE_MAP(KMapObjControlForm, CFormView)
+	ON_BN_CLICKED(IDC_BUTTON1, &KMapObjControlForm::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &KMapObjControlForm::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON3, &KMapObjControlForm::OnBnClickedButton3)
+	ON_BN_CLICKED(IDC_BUTTON4, &KMapObjControlForm::OnBnClickedButton4)
+END_MESSAGE_MAP()
+
+
+// KMapObjControlForm 진단입니다.
+
+#ifdef _DEBUG
+void KMapObjControlForm::AssertValid() const
+{
+	CFormView::AssertValid();
+}
+
+#ifndef _WIN32_WCE
+void KMapObjControlForm::Dump(CDumpContext& dc) const
+{
+	CFormView::Dump(dc);
+}
+#endif
+#endif //_DEBUG
+
+
+// KMapObjControlForm 메시지 처리기입니다.
+
+// ON
+void KMapObjControlForm::OnBnClickedButton1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.ObjSettingMode = true;
+}
+
+// OFF
+void KMapObjControlForm::OnBnClickedButton2()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.ObjSettingMode = false;
+}
+
+// SelectingMode ON
+void KMapObjControlForm::OnBnClickedButton3()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.ObjSelectingMode = true;
+}
+
+// SelectingMode OFF
+void KMapObjControlForm::OnBnClickedButton4()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CKGCA32MapToolApp* pApp = (CKGCA32MapToolApp*)AfxGetApp();
+	pApp->Sample.ObjSelectingMode = false;
+}

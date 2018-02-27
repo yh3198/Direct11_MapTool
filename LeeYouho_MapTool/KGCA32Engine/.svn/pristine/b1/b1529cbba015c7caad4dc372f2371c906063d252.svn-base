@@ -1,0 +1,620 @@
+#include "Sample.h"
+
+bool Sample::MapSpreating()
+{
+	m_Select.SetMatrix(NULL, &m_pMainCamera->m_matView, &m_pMainCamera->m_matProj); //좌표계 일치 + 마우스 레이 받아오기
+	m_viClosedIndex.clear();
+	for (int iMap = 0; iMap < m_vMapQuadTree.size(); iMap++)
+	{
+		for (int iCheckNode = 0; iCheckNode < m_vMapQuadTree[iMap]->m_DrawPatchNodeList.size(); iCheckNode++)
+		{
+			BNode* pNode = m_vMapQuadTree[iMap]->m_DrawPatchNodeList[iCheckNode];
+			if (m_Select.IntersectBox(&pNode->m_tBox))
+			{
+				int iIndex = iCheckNode;
+				m_viClosedIndex.push_back(iIndex);
+			}
+		}
+		if (!m_viClosedIndex.size())
+		{
+			return false;
+		}
+
+		/*충돌로 처리된 노드들을 거리에 따라 순서대로 정렬*/
+		vector<int> m_iOrgiClosedIndex;
+		while (m_viClosedIndex.size())
+		{
+			float PLength = 99999.9f;
+			int iApplyIndex = 0;
+			for (int iCheckNode = 0; iCheckNode < m_viClosedIndex.size(); iCheckNode++)
+			{
+				D3DXVECTOR3 Pvec = m_vMapQuadTree[iMap]->m_DrawPatchNodeList[m_viClosedIndex[iCheckNode]]->m_tBox.vCenter - m_Select.m_Ray.vOrigin;
+				float BLength = D3DXVec3Length(&Pvec);
+				if (PLength > BLength)
+				{
+					iApplyIndex = iCheckNode;
+				}
+			}
+			m_iOrgiClosedIndex.push_back(m_viClosedIndex[iApplyIndex]);
+			vector<int>::iterator itor = m_viClosedIndex.begin();
+			itor += iApplyIndex;
+			m_viClosedIndex.erase(itor);
+		}
+
+		// m_iOrgiClosedIndex = 가까운 순서대로 정렬된 충돌된 노드
+		for (int iApply = 0; iApply < m_iOrgiClosedIndex.size(); iApply++)
+		{
+			BNode* pNode = m_vMapQuadTree[iMap]->m_DrawPatchNodeList[m_iOrgiClosedIndex[iApply]];
+			m_vMapQuadTree[iMap]->GetLodType(pNode);
+			D3DXVECTOR3 v0, v1, v2;
+			int indexsize = m_vMapQuadTree[iMap]->m_pdwLodIndexArray[pNode->m_dwLodLevel]->IndexList[pNode->m_dwLodType].size() / 3;
+			for (int iFace = 0; iFace < indexsize; iFace++)
+			{
+				v0 = pNode->m_VertexList[m_vMapQuadTree[iMap]->m_pdwLodIndexArray[pNode->m_dwLodLevel]->IndexList[pNode->m_dwLodType][iFace * 3 + 0]].Position;
+				v1 = pNode->m_VertexList[m_vMapQuadTree[iMap]->m_pdwLodIndexArray[pNode->m_dwLodLevel]->IndexList[pNode->m_dwLodType][iFace * 3 + 1]].Position;
+				v2 = pNode->m_VertexList[m_vMapQuadTree[iMap]->m_pdwLodIndexArray[pNode->m_dwLodLevel]->IndexList[pNode->m_dwLodType][iFace * 3 + 2]].Position;
+				if (m_Select.CheckPick(v0, v1, v2)) // 충돌지점이 판별 됐다면
+				{
+					float RootNodeSize = m_vMapQuadTree[iMap]->m_pRootNode->m_tBox.vMax.x - m_vMapQuadTree[iMap]->m_pRootNode->m_tBox.vMin.x;
+					D3DXVECTOR3 Crash = m_Select.CrashPoint;
+					Crash.z *= -1.0f;
+					Crash.x = Crash.x + (RootNodeSize / 2);
+					Crash.z = Crash.z + (RootNodeSize / 2);
+					
+					SpreatingBox.vMin.x = Crash.x - m_fSpreatingRadius;
+					SpreatingBox.vMin.z = Crash.z - m_fSpreatingRadius;
+					SpreatingBox.vMax.x = Crash.x + m_fSpreatingRadius;
+					SpreatingBox.vMax.z = Crash.z + m_fSpreatingRadius;
+
+					Crash.x = Crash.x / RootNodeSize;
+					Crash.z = Crash.z / RootNodeSize;
+
+					SpreatingBox.vMin.x = SpreatingBox.vMin.x / RootNodeSize;
+					SpreatingBox.vMin.z = SpreatingBox.vMin.z / RootNodeSize;
+					SpreatingBox.vMax.x = SpreatingBox.vMax.x / RootNodeSize;
+					SpreatingBox.vMax.z = SpreatingBox.vMax.z / RootNodeSize;
+					
+					// uv값까지 생성완료
+					m_vMapQuadTree[iMap]->Spreating(m_pImmediateContext, SpreatingBox, Crash, m_fSpreatingRadius, m_iSpreatingColor);
+				}
+			}
+		}
+	}
+	return false;
+}
+
+bool Sample::MapHeightControl()
+{
+	//pNode->m_VertexList;
+	// 이게 버텍스
+	//m_vMapQuadTree[iMap]->m_pdwLodIndexArray[pNode->m_dwLodLevel]->IndexList[pNode->m_dwLodType];
+	// 이게 인덱스
+
+	// 버텍스는 m_DrawNodeList가 들고 있고
+	// 인덱스는 m_pdwLodIndexArray가 들고 있는데 몇번째 인덱스형태를 쓰는지 알아야 한다.
+	// 몇번째 인덱스 레벨의 몇번째 타입을 쓰고있는지 알아야 한다.
+	// 인덱스버퍼와 버텍스버퍼가 존재한다.
+	m_Select.SetMatrix(NULL, &m_pMainCamera->m_matView, &m_pMainCamera->m_matProj); //좌표계 일치가 필요하다.
+	D3DXVECTOR2 ControlBox;
+	m_viClosedIndex.clear();
+	for (int iMap = 0; iMap < m_vMapQuadTree.size(); iMap++)
+	{
+		for (int iCheckNode = 0; iCheckNode < m_vMapQuadTree[iMap]->m_DrawPatchNodeList.size(); iCheckNode++)
+		{
+			BNode* pNode = m_vMapQuadTree[iMap]->m_DrawPatchNodeList[iCheckNode];
+			if (m_Select.IntersectBox(&pNode->m_tBox))
+			{
+				int iIndex = iCheckNode;
+				m_viClosedIndex.push_back(iIndex);
+			}
+		}
+		if (!m_viClosedIndex.size())
+		{
+			return false;
+		}
+		
+		/*충돌로 처리된 노드들을 거리에 따라 순서대로 정렬*/
+		vector<int> m_iOrgiClosedIndex;
+		while (m_viClosedIndex.size())
+		{
+			float PLength = 99999.9f;
+			int iApplyIndex = 0;
+			for (int iCheckNode = 0; iCheckNode < m_viClosedIndex.size(); iCheckNode++)
+			{
+				D3DXVECTOR3 Pvec = m_vMapQuadTree[iMap]->m_DrawPatchNodeList[m_viClosedIndex[iCheckNode]]->m_tBox.vCenter - m_Select.m_Ray.vOrigin;
+				float BLength = D3DXVec3Length(&Pvec);
+				if (PLength > BLength)
+				{
+					iApplyIndex = iCheckNode;
+				}
+			}
+			m_iOrgiClosedIndex.push_back(m_viClosedIndex[iApplyIndex]);
+			vector<int>::iterator itor = m_viClosedIndex.begin();
+			itor += iApplyIndex;
+			m_viClosedIndex.erase(itor);
+		}
+
+		for (int iApply = 0; iApply < m_iOrgiClosedIndex.size(); iApply++)
+		{
+			BNode* pNode = m_vMapQuadTree[iMap]->m_DrawPatchNodeList[m_iOrgiClosedIndex[iApply]];
+			m_vMapQuadTree[iMap]->GetLodType(pNode);
+			D3DXVECTOR3 v0, v1, v2;
+			int indexsize = m_vMapQuadTree[iMap]->m_pdwLodIndexArray[pNode->m_dwLodLevel]->IndexList[pNode->m_dwLodType].size() / 3;
+			for (int iFace = 0; iFace < indexsize; iFace++)
+			{
+				v0 = pNode->m_VertexList[m_vMapQuadTree[iMap]->m_pdwLodIndexArray[pNode->m_dwLodLevel]->IndexList[pNode->m_dwLodType][iFace * 3 + 0]].Position;
+				v1 = pNode->m_VertexList[m_vMapQuadTree[iMap]->m_pdwLodIndexArray[pNode->m_dwLodLevel]->IndexList[pNode->m_dwLodType][iFace * 3 + 1]].Position;
+				v2 = pNode->m_VertexList[m_vMapQuadTree[iMap]->m_pdwLodIndexArray[pNode->m_dwLodLevel]->IndexList[pNode->m_dwLodType][iFace * 3 + 2]].Position;
+				if (m_Select.CheckPick(v0, v1, v2))
+				{
+					if (m_VCtrlState == vUp || m_VCtrlState == vDown) // up Down일 경우
+					{
+						ControlBox = ChangeYPosition(m_Select.CrashPoint, &pNode->m_VertexList);
+						if (pNode->m_tBox.vMax.y < ControlBox.x)
+						{
+							pNode->m_tBox.vMax.y = ControlBox.x;
+							pNode->m_tBox.vCenter.y = (pNode->m_tBox.vMax.y + pNode->m_tBox.vMin.y) / 2;
+							pNode->m_tBox.fExtent[1] = pNode->m_tBox.vMax.y - pNode->m_tBox.vCenter.y;
+						}
+						if (pNode->m_tBox.vMin.y > ControlBox.y)
+						{
+							pNode->m_tBox.vMin.y = ControlBox.y;
+							pNode->m_tBox.vCenter.y = (pNode->m_tBox.vMax.y + pNode->m_tBox.vMin.y) / 2;
+							pNode->m_tBox.fExtent[1] = pNode->m_tBox.vMax.y - pNode->m_tBox.vCenter.y;
+						}
+						ControlBox.x = 0;
+						ControlBox.y = 0;
+						pNode->m_pVertexBuffer.Attach(m_vMapQuadTree[iMap]->CreateVertexBuffer(m_pd3dDevice, &pNode->m_VertexList.at(0), pNode->m_VertexList.size(), sizeof(PNCT_Vertex)));
+						for (int iNeighbor = 0; iNeighbor < pNode->m_NeighborList.size(); iNeighbor++)
+						{
+							if (pNode->m_NeighborList[iNeighbor] != NULL)
+							{
+								ControlBox = ChangeYPosition(m_Select.CrashPoint, &pNode->m_NeighborList[iNeighbor]->m_VertexList);
+								if (pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y < ControlBox.x)
+								{
+									pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y = ControlBox.x;
+									pNode->m_NeighborList[iNeighbor]->m_tBox.vCenter.y = (pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y + pNode->m_NeighborList[iNeighbor]->m_tBox.vMin.y) / 2;
+									pNode->m_NeighborList[iNeighbor]->m_tBox.fExtent[1] = pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y - pNode->m_NeighborList[iNeighbor]->m_tBox.vCenter.y;
+								}
+								if (pNode->m_NeighborList[iNeighbor]->m_tBox.vMin.y > ControlBox.y)
+								{
+									pNode->m_NeighborList[iNeighbor]->m_tBox.vMin.y = ControlBox.y;
+									pNode->m_NeighborList[iNeighbor]->m_tBox.vCenter.y = (pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y + pNode->m_NeighborList[iNeighbor]->m_tBox.vMin.y) / 2;
+									pNode->m_NeighborList[iNeighbor]->m_tBox.fExtent[1] = pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y - pNode->m_NeighborList[iNeighbor]->m_tBox.vCenter.y;
+								}
+								ControlBox.x = 0;
+								ControlBox.y = 0;
+								pNode->m_NeighborList[iNeighbor]->m_pVertexBuffer.Attach(m_vMapQuadTree[iMap]->
+									CreateVertexBuffer(m_pd3dDevice, &pNode->m_NeighborList[iNeighbor]->
+										m_VertexList.at(0), pNode->m_NeighborList[iNeighbor]->m_VertexList.size(), sizeof(PNCT_Vertex)));
+							}
+						}
+						return true;
+					}
+					else // Parallel일 경우
+					{
+						ControlBox = ChangeYParallel(m_Select.CrashPoint, &pNode->m_VertexList);
+						if (pNode->m_tBox.vMax.y < ControlBox.x)
+						{
+							pNode->m_tBox.vMax.y = ControlBox.x;
+							pNode->m_tBox.vCenter.y = (pNode->m_tBox.vMax.y + pNode->m_tBox.vMin.y) / 2;
+							pNode->m_tBox.fExtent[1] = pNode->m_tBox.vMax.y - pNode->m_tBox.vCenter.y;
+						}
+						if (pNode->m_tBox.vMin.y > ControlBox.y)
+						{
+							pNode->m_tBox.vMin.y = ControlBox.y;
+							pNode->m_tBox.vCenter.y = (pNode->m_tBox.vMax.y + pNode->m_tBox.vMin.y) / 2;
+							pNode->m_tBox.fExtent[1] = pNode->m_tBox.vMax.y - pNode->m_tBox.vCenter.y;
+						}
+						ControlBox.x = 0;
+						ControlBox.y = 0;
+						pNode->m_pVertexBuffer.Attach(m_vMapQuadTree[iMap]->CreateVertexBuffer(m_pd3dDevice, &pNode->m_VertexList.at(0), pNode->m_VertexList.size(), sizeof(PNCT_Vertex)));
+						for (int iNeighbor = 0; iNeighbor < pNode->m_NeighborList.size(); iNeighbor++)
+						{
+							if (pNode->m_NeighborList[iNeighbor] != NULL)
+							{
+								ControlBox = ChangeYParallel(m_Select.CrashPoint, &pNode->m_NeighborList[iNeighbor]->m_VertexList);
+								if (pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y < ControlBox.x)
+								{
+									pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y = ControlBox.x;
+									pNode->m_NeighborList[iNeighbor]->m_tBox.vCenter.y = (pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y + pNode->m_NeighborList[iNeighbor]->m_tBox.vMin.y) / 2;
+									pNode->m_NeighborList[iNeighbor]->m_tBox.fExtent[1] = pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y - pNode->m_NeighborList[iNeighbor]->m_tBox.vCenter.y;
+								}
+								if (pNode->m_NeighborList[iNeighbor]->m_tBox.vMin.y > ControlBox.y)
+								{
+									pNode->m_NeighborList[iNeighbor]->m_tBox.vMin.y = ControlBox.y;
+									pNode->m_NeighborList[iNeighbor]->m_tBox.vCenter.y = (pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y + pNode->m_NeighborList[iNeighbor]->m_tBox.vMin.y) / 2;
+									pNode->m_NeighborList[iNeighbor]->m_tBox.fExtent[1] = pNode->m_NeighborList[iNeighbor]->m_tBox.vMax.y - pNode->m_NeighborList[iNeighbor]->m_tBox.vCenter.y;
+								}
+								ControlBox.x = 0;
+								ControlBox.y = 0;
+								pNode->m_NeighborList[iNeighbor]->m_pVertexBuffer.Attach(m_vMapQuadTree[iMap]->
+									CreateVertexBuffer(m_pd3dDevice, &pNode->m_NeighborList[iNeighbor]->
+										m_VertexList.at(0), pNode->m_NeighborList[iNeighbor]->m_VertexList.size(), sizeof(PNCT_Vertex)));
+							}
+						}
+						bParallel = true;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+
+D3DXVECTOR2 Sample::ChangeYPosition(D3DXVECTOR3 CPos, vector<PNCT_Vertex>* VertexList)
+{
+	D3DXVECTOR2 ControlBox;
+	ControlBox.x = -99999.9f; // MAX
+	ControlBox.y = 99999.9f; // MIN
+	float HeightControl = 0.0f;
+	if (m_VCtrlState == vUp)
+	{
+		HeightControl = 1.0f * g_fSecPerFrame * m_fHeightValue;
+	}
+	else //(m_VCtrlState == vDown)
+	{
+		HeightControl = -1.0f * g_fSecPerFrame * m_fHeightValue;
+	}
+	for (int iVer = 0; iVer < VertexList->size(); iVer++)
+	{
+		D3DXVECTOR3 Va = CPos;
+		D3DXVECTOR3 Vb = VertexList[0][iVer].Position;
+		Va.y = 0.0f;
+		Vb.y = 0.0f;
+		D3DXVECTOR3 LengthTemp = Va - Vb;
+		float length = D3DXVec3Length(&LengthTemp);
+		length = length / m_fRadius;
+		if (length < 1.0f)
+		{
+			length *= 90;
+			double pi = 3.141592;
+			length = pi * length / 180.0;
+			length = cosf(length); 
+			length *= HeightControl; // 높이 변화율 추가요망
+			
+			VertexList[0][iVer].Position.y += length;
+
+			if (ControlBox.x < VertexList[0][iVer].Position.y)
+			{
+				ControlBox.x = VertexList[0][iVer].Position.y;
+			}
+			if (ControlBox.y > VertexList[0][iVer].Position.y)
+			{
+				ControlBox.y = VertexList[0][iVer].Position.y;
+			}
+		}
+	}
+	return ControlBox;
+}
+
+D3DXVECTOR2 Sample::ChangeYParallel(D3DXVECTOR3 CPos, vector<PNCT_Vertex>* VertexList)
+{
+	D3DXVECTOR2 ControlBox;
+	ControlBox.x = -99999.9f; // MAX
+	ControlBox.y = 99999.9f; // MIN
+	float HeightControl = 0.0f;
+	if (m_VCtrlState == vUp)
+	{
+		HeightControl = 1.0f;
+	}
+	else //(m_VCtrlState == vDown)
+	{
+		HeightControl = -1.0f;
+	}
+	for (int iVer = 0; iVer < VertexList->size(); iVer++)
+	{
+		D3DXVECTOR3 Va = CPos;
+		D3DXVECTOR3 Vb = VertexList[0][iVer].Position;
+		Va.y = 0.0f;
+		Vb.y = 0.0f;
+		D3DXVECTOR3 LengthTemp = Va - Vb;
+		float length = D3DXVec3Length(&LengthTemp);
+		length = length / m_fRadius;
+		if (length < 1.0f)
+		{
+			if (bParallel) //이전과 같은값을 적용
+			{
+				VertexList[0][iVer].Position.y = fParallel;
+				if (ControlBox.x < VertexList[0][iVer].Position.y)
+				{
+					ControlBox.x = VertexList[0][iVer].Position.y;
+				}
+				if (ControlBox.y > VertexList[0][iVer].Position.y)
+				{
+					ControlBox.y = VertexList[0][iVer].Position.y;
+				}
+			}
+			else
+			{
+				VertexList[0][iVer].Position.y = CPos.y;
+				fParallel = CPos.y;
+				if (ControlBox.x < VertexList[0][iVer].Position.y)
+				{
+					ControlBox.x = VertexList[0][iVer].Position.y;
+				}
+				if (ControlBox.y > VertexList[0][iVer].Position.y)
+				{
+					ControlBox.y = VertexList[0][iVer].Position.y;
+				}
+			}
+		}
+	}
+	return ControlBox;
+}
+
+bool Sample::CreateMap(int iCellCount, int iPatchCount, float fCellDistance, TCHAR** MapTexture, int TextureCount, TCHAR* HeightMapTex)
+{
+	m_MFCMapInfo = new BMapDesc;
+	m_MFCMapInfo->iCellCount = iCellCount;
+	m_MFCMapInfo->iPatchCount = iPatchCount;
+	m_MFCMapInfo->fCellDistance = fCellDistance;
+	m_vMFCMapInfo.push_back(m_MFCMapInfo);
+
+	m_MFCMap = new BMap;
+	m_MFCMap->SetMapDesc(*m_MFCMapInfo);
+	m_MFCMap->Create(m_pd3dDevice, m_pImmediateContext, MapTexture, TextureCount, HeightMapTex, L"../../data/shader/NormalShader.hlsl");
+	m_MFCMap->UpdateNormal();
+	m_vMapTexture.push_back(MapTexture[0]);
+	m_vMFCMap.push_back(m_MFCMap);
+	
+	CreateQuadTree(2, 1, m_MFCMap); // 여기서 최대 깊이설정 & 최소 분할사이즈를 조정 가능 == MFC에서 넘겨주도록 해야한다.
+
+	// m_MFCWaterMap은 워터를 표현할 맵입니다.
+	m_MFCWaterMapInfo = new BMapDesc;
+	m_MFCWaterMapInfo->iCellCount = iCellCount;
+	m_MFCWaterMapInfo->iPatchCount = iPatchCount;
+	m_MFCWaterMapInfo->fCellDistance = fCellDistance;
+
+	m_MFCWaterMap = new BNMap;
+	m_MFCWaterMap->SetMapDesc(*m_MFCWaterMapInfo);
+	m_MFCWaterMap->Create(m_pd3dDevice, m_pImmediateContext, MapTexture, TextureCount, HeightMapTex, L"../../data/shader/MapShader.hlsl");
+	m_MFCWaterMap->UpdateNormal();
+	m_vMFCWaterMap.push_back(m_MFCWaterMap);
+	return true;
+}
+
+bool Sample::CreateWaterMap(BMapTileRender* SelectedMap, int iMaxDepthLimit, float fMinDivideSize, int iSelectedMap, TCHAR* WaterTex, TCHAR* WaterNormalTex, float fHeight, float fWave)
+{
+	if (m_vMFCWaterMap.size())
+	{
+		m_WaterMapQuadTree = new BWaterMap;
+		m_WaterMapQuadTree->m_fWaterHeight = fHeight;
+		m_WaterMapQuadTree->m_fWaterWave = fWave;
+		m_WaterMapQuadTree->m_iMaxDepthLimit = iMaxDepthLimit;
+		m_WaterMapQuadTree->m_fMinDivideSize = fMinDivideSize;
+		m_WaterMapQuadTree->Update(m_pd3dDevice, m_pMainCamera, SelectedMap);
+		m_WaterMapQuadTree->Build(m_vMFCWaterMap[iSelectedMap], m_vMFCWaterMap[iSelectedMap]->m_iNumCols, 
+			m_vMFCWaterMap[iSelectedMap]->m_iNumRows, m_pImmediateContext, WaterTex, WaterNormalTex);
+		m_WaterMapQuadTree->m_pWaterReflectMap = m_vMapQuadTree[m_vMFCWaterMap.size() - 1];
+		for (int imap = 0; imap < 3; imap++)
+		{
+			if (!m_WaterMapQuadTree->m_MiniMap[imap].Create(m_pd3dDevice, L"../../data/shader/TestShader.hlsl"))
+			{
+				return false;
+			}
+			m_WaterMapQuadTree->m_MiniMap[imap].Set(m_pd3dDevice, 0, imap * 200, 200, 200);
+		}
+		m_vWaterQuadTree.push_back(m_WaterMapQuadTree);
+	}
+	return false;
+}
+
+bool Sample::CreateQuadTree(int iMaxDepthLimit, float fMinDivideSize, BMap* Map)
+{
+	m_MapQuadTree = new BMapTileRender;
+	m_MapQuadTree->m_iMaxDepthLimit = iMaxDepthLimit;
+	m_MapQuadTree->m_fMinDivideSize = fMinDivideSize;
+	m_MapQuadTree->Update(m_pd3dDevice, m_pMainCamera);
+	m_MapQuadTree->Build(Map, Map->m_iNumCols, Map->m_iNumRows, m_pImmediateContext);
+	m_MapQuadTree->CreateSpreatingTexture();
+	// 나중에 맵이 여러개 생성되었을 때 변경해주어야한다. 지금은 기본 생성된 0번맵을 넣어줄 것이다.
+	m_iSelectedMap = 0; //0번맵
+	m_bSelectedMap = m_MapQuadTree; // 지금은 기본 생성된 맵을 바로 넣어주고 있다.
+	m_vMapQuadTree.push_back(m_MapQuadTree);
+	return true;
+}
+
+//bool Sample::CreateQuadWaterMap(int iMaxDepthLimit, float fMinDivideSize, BNMap* Map)
+//{
+//	m_WaterMapQuadTree = new BWaterMap;
+//	m_WaterMapQuadTree->m_iMaxDepthLimit = iMaxDepthLimit;
+//	m_WaterMapQuadTree->m_fMinDivideSize = fMinDivideSize;
+//	m_WaterMapQuadTree->Update(m_pd3dDevice, m_pMainCamera);
+//	m_WaterMapQuadTree->Build(Map, Map->m_iNumCols, Map->m_iNumRows, m_pImmediateContext);
+//	m_vWaterQuadTree.push_back(m_WaterMapQuadTree);
+//	return true;
+//}
+
+
+bool Sample::Init()
+{
+	/*MFC용*/
+	m_VCtrlState = 0;
+	m_fHeightValue = 1.0f;
+	bParallel = false;
+	m_fRadius = 3.0f;
+	m_fSpreatingRadius = 3.0f;
+	m_VSpreatState = vSpreatNone;
+	m_Exporter.SetExporter(m_pImmediateContext, L"MapExportFile.txt");
+	
+	// 워터맵 라이트
+	m_vInitLightPos = D3DXVECTOR3(300.0f, 300.0f, 0.0f);
+
+	return true;
+}
+
+bool Sample::Frame()
+{
+	/*MFC맵 띄우기*/
+	//if (m_pMainCamera->bCameraChange)
+	{
+		for (int iMap = 0; iMap < m_vMapQuadTree.size(); iMap++)
+		{
+			m_vMapQuadTree[iMap]->Frame(m_pMainCamera);
+		}
+		for (int iMap = 0; iMap < m_vWaterQuadTree.size(); iMap++)
+		{
+			m_vWaterQuadTree[iMap]->Frame(m_pMainCamera);
+			m_vWaterQuadTree[iMap]->WaterFrame(m_ViewPort, m_pDepthStencilView, m_pRenderTargetView);
+		}
+	}
+	/*맵 높이 조절하기*/
+	if (m_VCtrlState && I_Input.m_MFCDIMouseState[0] == KEY_PUSH)
+	{
+		MapHeightControl();
+		if (m_vWaterQuadTree.size())
+		{
+			m_vWaterQuadTree[0]->m_HeightMap.m_pMiniMapRT->DrawQuadTreeHeightTex(m_pd3dDevice, m_pImmediateContext, m_vWaterQuadTree[0]->m_SelectedMap);
+		}
+	}
+
+	/*라이트 계산*/ 
+	// 라이트 클래스가 만들어지면 이를 추가시켜야 한다.
+	// 라이트 계산 & 상수 데이터 생성
+	float t = g_fDurationTime * D3DX_PI;
+	D3DXMATRIX mTranslate, mRotation;
+	D3DXMatrixTranslation(&mTranslate, m_vInitLightPos.x, m_vInitLightPos.y, m_vInitLightPos.z);
+	D3DXMatrixRotationY(&mRotation, t*0.02f);
+	D3DXMatrixMultiply(&m_mLightWorld, &mTranslate, &mRotation);
+	m_LightPos.x = m_mLightWorld._41;
+	m_LightPos.y = m_mLightWorld._42;
+	m_LightPos.z = m_mLightWorld._43;
+	D3DXVec3Normalize(&m_vDirection, &m_LightPos);
+	m_vDirection *= -1.0f;
+	if (m_vWaterQuadTree.size())
+	{
+		m_vWaterQuadTree[0]->m_TanLight.matNormal = m_vWaterQuadTree[0]->m_matNormal;
+		m_vWaterQuadTree[0]->m_TanLight.vLightPos = D3DXVECTOR4(m_vDirection, 0.0f);
+		m_vWaterQuadTree[0]->m_TanLight.vEye = D3DXVECTOR4(m_pMainCamera->m_vPos, 0.0f);
+		m_vWaterQuadTree[0]->m_TanLight.vEyeDir = D3DXVECTOR4(m_pMainCamera->m_vLook, 0.0f);
+		m_pImmediateContext->UpdateSubresource(m_vWaterQuadTree[0]->m_pTanLightCB.Get(), 0, NULL, &m_vWaterQuadTree[0]->m_TanLight, 0, 0);
+	}
+	return true;
+}
+
+bool Sample::Render()
+{
+	/*Spreating*/
+	if (m_VSpreatState && I_Input.m_MFCDIMouseState[0] == KEY_PUSH)
+	{
+ 		MapSpreating();
+	}
+
+	/*MFC맵 띄우기*/
+	for (int iMap = 0; iMap < m_vMapQuadTree.size(); iMap++)
+	{
+		m_vMapQuadTree[iMap]->m_pMap->SetMatrix(&m_vMapQuadTree[iMap]->m_pMap->m_matWorld, &m_pMainCamera->m_matView, &m_pMainCamera->m_matProj);
+		m_vMapQuadTree[iMap]->Render(m_pImmediateContext);
+	}
+	/*MFC워터맵 띄우기*/
+	for (int iWaterMap = 0; iWaterMap < m_vWaterQuadTree.size(); iWaterMap++)
+	{
+		// 수면의 높이 변화
+		float w = -m_vWaterQuadTree[0]->m_fWaterHeight + cosf(g_fDurationTime) * m_vWaterQuadTree[0]->m_fWaterWave * 0.2f;
+		D3DXMATRIX matWaterWorld;
+		D3DXMatrixIdentity(&matWaterWorld);
+		matWaterWorld._42 = -w;
+
+		m_vWaterQuadTree[iWaterMap]->m_Fog.g_ClipPlane = D3DXVECTOR4(0.0f, 1.0f, 0.0f, m_vWaterQuadTree[iWaterMap]->m_fWaterHeight);
+		m_vWaterQuadTree[iWaterMap]->m_WaterBottomSRV = m_vWaterQuadTree[iWaterMap]->m_MiniMap[1].m_pMiniMapRT->m_pSRV;
+		m_vWaterQuadTree[iWaterMap]->m_WaterMapUpsideSRV = m_vWaterQuadTree[iWaterMap]->m_MiniMap[2].m_pMiniMapRT->m_pSRV;
+		m_pImmediateContext->UpdateSubresource(m_vWaterQuadTree[iWaterMap]->m_pFogCB.Get(), 0, NULL, &m_vWaterQuadTree[iWaterMap]->m_Fog, 0, 0);
+		m_vWaterQuadTree[iWaterMap]->SetWaterMatrix(&matWaterWorld, &m_pMainCamera->m_matView, &m_pMainCamera->m_matProj);
+		m_vWaterQuadTree[iWaterMap]->Render();
+
+		/*확인용 랜더*/
+		m_vWaterQuadTree[iWaterMap]->m_MiniMap[0].Render(m_pImmediateContext);
+		m_pImmediateContext->RSSetViewports(1, &m_ViewPort);
+		m_vWaterQuadTree[iWaterMap]->m_MiniMap[1].Render(m_pImmediateContext);
+		m_pImmediateContext->RSSetViewports(1, &m_ViewPort);
+		m_vWaterQuadTree[iWaterMap]->m_MiniMap[2].Render(m_pImmediateContext);
+		m_pImmediateContext->RSSetViewports(1, &m_ViewPort);
+
+	}
+
+
+	return true;
+}
+
+bool Sample::Release()
+{
+	return true;
+}
+
+bool Sample::MapExport()
+{
+	// 이하 코드는 1개의 맵만을 export하는 코드입니다.
+	// 다수의 맵을 export하기 위해서는 변경이 필요합니다.
+	m_Exporter.SetExporter(m_pImmediateContext, L"../../data/SaveExport.txt");
+	m_Exporter.ExpAlphaMapTex(m_vMapQuadTree[0]->SpreatingTexTure);
+	if (m_vMapTexture.size())
+	{
+		m_vMapTexture.resize(1);
+	}
+	m_Exporter.ExpTexName(m_vMapTexture[0], m_mMapSplattingTexture);
+	m_Exporter.ExpWaterMapInfo(m_vWaterQuadTree[0]->m_iSelectedMap, m_vWaterQuadTree[0]->m_strWaterTex, 
+		m_vWaterQuadTree[0]->m_strWaterNormalTex, m_vWaterQuadTree[0]->m_fWaterHeight, m_vWaterQuadTree[0]->m_fWaterWave);
+	m_Exporter.ExpMapInfo(m_vMFCMapInfo[0]);
+	m_Exporter.ExpHeightTotal(m_vMapQuadTree[0]->m_pRootNode);
+	if (!m_Exporter.m_pStream) return false;
+	fclose(m_Exporter.m_pStream);
+	return true;
+}
+
+bool Sample::MapImport(TCHAR* ImportFile)
+{
+	if (!m_Importer.OpenStream(ImportFile, m_pd3dDevice, m_pImmediateContext, m_pMainCamera))
+	{
+		return false;
+	}
+	m_Importer.LoadMap(&m_vMFCMap, &m_vMFCMapInfo, &m_vMapQuadTree, &m_vMapTexture, &m_mMapSplattingTexture, &m_vWaterQuadTree);
+
+
+	//워터맵용 임시코드
+	m_bSelectedMap = m_vMapQuadTree[0];
+	m_MFCWaterMapInfo = new BMapDesc;
+	m_MFCWaterMapInfo->iCellCount = m_vMFCMapInfo[0]->iCellCount;
+	m_MFCWaterMapInfo->iPatchCount = m_vMFCMapInfo[0]->iPatchCount;
+	m_MFCWaterMapInfo->fCellDistance = m_vMFCMapInfo[0]->fCellDistance;
+
+	m_MFCWaterMap = new BNMap;
+	m_MFCWaterMap->SetMapDesc(*m_MFCWaterMapInfo);
+	m_MFCWaterMap->Create(m_pd3dDevice, m_pImmediateContext, &m_mMapSplattingTexture[0], 1, NULL, L"../../data/shader/MapShader.hlsl");
+	m_MFCWaterMap->UpdateNormal();
+	m_vMFCWaterMap.push_back(m_MFCWaterMap);
+
+	m_vWaterQuadTree[0]->m_iMaxDepthLimit = m_vMapQuadTree[m_vWaterQuadTree[0]->m_iSelectedMap]->m_iMaxDepthLimit;
+	m_vWaterQuadTree[0]->m_fMinDivideSize = m_vWaterQuadTree[0]->m_fWaterWave;
+	m_vWaterQuadTree[0]->Update(m_pd3dDevice, m_pMainCamera, m_vMapQuadTree[m_vWaterQuadTree[0]->m_iSelectedMap]);
+	m_vWaterQuadTree[0]->Build(m_vMFCWaterMap[m_vWaterQuadTree[0]->m_iSelectedMap], m_vMFCWaterMap[m_vWaterQuadTree[0]->m_iSelectedMap]->m_iNumCols,
+		m_vMFCWaterMap[m_vWaterQuadTree[0]->m_iSelectedMap]->m_iNumRows, m_pImmediateContext, m_vWaterQuadTree[0]->m_strWaterTex, m_vWaterQuadTree[0]->m_strWaterNormalTex);
+	m_vWaterQuadTree[0]->m_pWaterReflectMap = m_vMapQuadTree[m_vMFCWaterMap.size() - 1];
+	for (int imap = 0; imap < 3; imap++)
+	{
+		if (!m_vWaterQuadTree[0]->m_MiniMap[imap].Create(m_pd3dDevice, L"../../data/shader/TestShader.hlsl"))
+		{
+			return false;
+		}
+		m_vWaterQuadTree[0]->m_MiniMap[imap].Set(m_pd3dDevice, 0, imap * 200, 200, 200);
+	}
+	return true;
+}
+
+bool Sample::GetSplattingTexName(int Color, TCHAR** Name)
+{
+	m_mMapSplattingTexture[Color] = Name[0];
+	Text.push_back(Name[0]);
+	return true;
+}
+
+Sample::Sample()
+{
+}
+
+
+Sample::~Sample()
+{
+}

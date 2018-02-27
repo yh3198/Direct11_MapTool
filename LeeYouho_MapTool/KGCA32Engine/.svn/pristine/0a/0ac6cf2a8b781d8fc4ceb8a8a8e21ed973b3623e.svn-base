@@ -1,0 +1,108 @@
+#pragma once
+#include "BCore.h"
+#include "MapExporter.h"
+#include "MapImporter.h"
+
+enum VertexControlerState
+{
+	vNone = 0,
+	vUp,
+	vDown,
+	vParallel,
+};
+
+enum SpreatingState
+{
+	vSpreatNone = 0,
+	vSpreatApply,
+};
+
+enum SpreatingColor
+{
+	vRed = 0,
+	vGreen,
+	vBlue,
+	vAlpha,
+};
+
+class B_BoxObject : public BObject
+{
+public:
+	D3DXVECTOR3 m_vPosition;
+	D3DXVECTOR4 m_vColor;
+
+public:
+	B_BoxObject();
+	~B_BoxObject();
+};
+
+class Sample : public BCore
+{
+public:
+	/*맵 생성용 변수*/
+	//BMapTileRender m_MapQuadTree;
+	BMap SampleMap;
+
+	/*MFC용 변수*/
+	vector<BMapDesc*> m_vMFCMapInfo;
+	vector<BMap*> m_vMFCMap;
+	vector<BMapTileRender*> m_vMapQuadTree;
+	vector<int> m_viClosedIndex;
+	MapExporter m_Exporter;
+	MapImporter m_Importer;
+
+	vector<TCHAR*> m_vMapTexture;
+	map<int, TCHAR*> m_mMapSplattingTexture;
+
+	BMapTileRender* m_MapQuadTree;
+	BMapDesc* m_MFCMapInfo;
+	BMap* m_MFCMap;
+	int m_VCtrlState; // 맵 높이조절 상태확인용 변수 
+	int m_VSpreatState; // 맵 그리기 상태확인용 변수
+	BSelect m_Select;
+	float m_fRadius; // 마우스 피킹범위
+	float m_fHeightValue;
+	bool bParallel;
+	float fParallel;
+	// 스프레팅용 변수
+	B_BOX SpreatingBox; // 스프레팅의 최대 최소범위uv값
+	float m_fSpreatingRadius;
+	int   m_iSpreatingColor;
+
+	/*박스 충돌용 변수*/
+	BSelect SampleSelect;
+	BQuadTree SampleObjQuad;
+	BBox* m_pBoxShape;
+	B_BoxObject* m_pObject;
+	int m_iDrawDepth;
+
+public:
+	/*MFC용 함수*/
+	bool CreateMap(int iCellCount, int iPatchCount, float fCellDistance, TCHAR** MapTexture, int TextureCount, TCHAR* HeightMapTex = NULL);
+	bool CreateQuadTree(int iMaxDepthLimit, float fMinDivideSize, BMap* Map);
+	bool MapHeightControl();
+	D3DXVECTOR2 ChangeYPosition(D3DXVECTOR3 CPos, vector<PNCT_Vertex>* VertexList);
+	D3DXVECTOR2 ChangeYParallel(D3DXVECTOR3 CPos, vector<PNCT_Vertex>* VertexList);
+
+	bool MapSpreating(); // 스프레팅 함수
+	bool GetSplattingTexName(int Color, TCHAR** Name);
+	vector<TCHAR*> Text;
+
+	bool MapExport();
+	bool MapImport(TCHAR* ImportFile);
+
+	/*박스 충돌용 함수*/
+	void DrawObject(BCamera* Camera);
+	bool FindBoxAndDelete();
+
+public:
+	bool		Init();
+	bool		Frame();
+	bool		Render();	
+	bool		Release();
+
+public:
+	Sample();
+	~Sample();
+};
+

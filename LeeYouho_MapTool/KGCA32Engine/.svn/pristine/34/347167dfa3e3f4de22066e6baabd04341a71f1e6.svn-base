@@ -1,0 +1,94 @@
+#include "BWaterMap.h"
+
+// 워터맵의 높이맵 //
+// Create 에서 높이맵을 받아온다.
+// 워터맵의 텍스쳐는 워터맵에 해당하는 높이 텍스쳐만을 사용한다. 
+// 만약 높이텍스쳐를 사용하지 않는다면 ?
+// 워터맵은 맵과 같은 크기의 맵이다. 맵을 읽어올때와 같은 방식으로 y값을 받아와서 워터맵의 높이맵 생성이 가능해진다.
+
+HRESULT BWaterMap::TextureLoad(ID3D11Device* pDevice, const TCHAR* strNormalTex, const TCHAR* strHeightTex)
+{
+	HRESULT hr = S_OK;
+	if (strNormalTex)
+	{
+		hr = SetWaterNormalTexture(pDevice, strNormalTex);
+	}
+	if (strHeightTex)
+	{
+		hr = SetHeightTexture(pDevice, strHeightTex);
+	}
+	return hr;
+}
+
+// 워터의 텍스쳐 질감을 표현해 줄 노말맵 ( 아주 중요 )
+HRESULT BWaterMap::SetWaterNormalTexture(ID3D11Device* pDevice, const TCHAR* strFilePath)
+{
+	HRESULT hr = S_OK;
+	FAILED(hr = D3DX11CreateShaderResourceViewFromFile(pDevice, strFilePath, NULL, NULL, &m_WaterNormalSRV, NULL));
+	return hr;
+}
+HRESULT BWaterMap::SetHeightTexture(ID3D11Device* pDevice, const TCHAR* strFilePath)
+{
+	HRESULT hr = S_OK;
+	FAILED(hr = D3DX11CreateShaderResourceViewFromFile(pDevice, strFilePath, NULL, NULL, &m_WaterHeightSRV, NULL));
+	return hr;
+}
+
+bool BWaterMap::Render(ID3D11DeviceContext* pContext)
+{
+	return true;
+}
+
+/*여기서 넘기는 pMap은 실제 Map이 아니라 WaterPlane 이다.*/
+bool BWaterMap::Build(BMap* pMap, DWORD dwWidth, DWORD dwHeight, ID3D11DeviceContext* pImmediateContext, const TCHAR* strNormalTex, const TCHAR* strHeightTex)
+{
+	m_dwWidth = dwWidth;
+	m_dwHeight = dwHeight;
+	m_pMap = new BMap;
+	m_pMap->SetMapDesc(pMap->m_MapDesc);
+	m_pMap->Create(m_pd3dDevice, m_pImmediateContext, NULL, 0);
+	m_pMap->UpdateNormal();
+	m_pWaterTexMap = pMap;
+
+	TextureLoad(m_pd3dDevice, strNormalTex, strHeightTex);
+
+	m_iNumFace = (dwWidth - 1) *(dwHeight - 1) * 2;
+	m_bUsedIndexList = true;
+	m_pImmediateContext = pImmediateContext;
+
+	m_pRootNode = CreateNode(NULL, 0, dwWidth - 1, dwWidth * (dwHeight - 1), dwWidth * dwHeight - 1);
+
+	InitLevelOrder(m_pRootNode, m_iMaxDepthLimit); // LOD용 함수 LOD 레벨 resize
+	m_pIndexBuffer.Attach(CreateIndexBuffer(m_pd3dDevice, NULL, m_iNumFace * 3, sizeof(DWORD)));
+
+	if (BuildTree(m_pRootNode))
+	{
+		for (int iNode = 0; iNode < 4; iNode++)
+		{
+			SetNeighborNode(m_pRootNode->m_pChild[iNode]);
+		}
+		SetLOD(m_dwWidth, m_iMaxDepth);
+
+		// LOD용 인덱스 제작 함수
+		ComputeStaticLodIndex(m_iNumCell);
+		return true;
+	}
+	return false;
+}
+
+// 높이값의 변화로 물의 높낮이 설정
+bool BWaterMap::SetMapHeight(float Height)
+{
+	m_fWaterHeight = Height;
+	m_pMap->m_matWorld._42 = Height;
+	return true;
+}
+
+BWaterMap::BWaterMap()
+{
+}
+
+
+BWaterMap::~BWaterMap()
+{
+}
